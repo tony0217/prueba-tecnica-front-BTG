@@ -1,1 +1,59 @@
-<p>dashboard works!</p>
+<div class="layout-container">
+  <app-sidebar></app-sidebar>
+  
+  <main class="page-content">
+    <header class="page-header">
+      <div class="header-titles">
+        <h1>Resumen General</h1>
+        <p>Bienvenido de nuevo, visualiza el estado de tu portafolio.</p>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      <!-- Balance section -->
+      <section class="overview-section">
+        <h2>General</h2>
+        <div class="cards-grid">
+          <app-balance-card 
+            title="Saldo Disponible" 
+            [amount]="balance().available"
+            icon="account_balance_wallet">
+          </app-balance-card>
+          
+          <app-balance-card 
+            title="Total Invertido" 
+            [amount]="balance().invested"
+            icon="pie_chart">
+          </app-balance-card>
+
+          <app-balance-card 
+            title="Patrimonio Total" 
+            [amount]="balance().available + balance().invested"
+            icon="monetization_on">
+          </app-balance-card>
+        </div>
+      </section>
+
+      <!-- Transactions section -->
+      <section class="transactions-section">
+        <div class="section-header">
+          <h2>Transacciones Recientes</h2>
+        </div>
+        
+        <div class="transactions-list">
+          <ng-container *ngIf="(transactions$ | async) as transactions">
+            <app-transaction-row 
+              *ngFor="let tx of transactions.slice(0, 5)" 
+              [transaction]="tx">
+            </app-transaction-row>
+            
+            <div class="empty-state" *ngIf="transactions.length === 0">
+              <mat-icon>receipt_long</mat-icon>
+              <p>Aún no tienes transacciones recientes.</p>
+            </div>
+          </ng-container>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

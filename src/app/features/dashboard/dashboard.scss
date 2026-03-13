@@ -1,0 +1,85 @@
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--mat-sys-surface);
+}
+
+.page-content {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .page-header {
+    margin-bottom: 32px;
+
+    .header-titles {
+      h1 {
+        margin: 0 0 8px 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      p {
+        margin: 0;
+        color: #666;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .overview-section {
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+      }
+    }
+
+    .transactions-section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+
+      .section-header {
+        margin-bottom: 20px;
+        
+        h2 {
+          font-size: 18px;
+          margin: 0;
+          font-weight: 600;
+        }
+      }
+
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 0;
+        color: #888888;
+
+        mat-icon {
+          font-size: 48px;
+          height: 48px;
+          width: 48px;
+          margin-bottom: 16px;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
