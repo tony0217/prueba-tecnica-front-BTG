@@ -159,4 +159,4 @@ Los tests cubren:
 
 ## 👤 Autor
 
-Tony Hurtado — [GitHub](https://github.com/tony0217)
+Anthony Henríquez Casallas — [GitHub](https://github.com/tony0217)
