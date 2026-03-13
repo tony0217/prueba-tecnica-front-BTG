@@ -9,8 +9,9 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  
-  .page-header {
+
+  // ========== DESKTOP HEADER ==========
+  .desktop-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -65,6 +66,96 @@
     }
   }
 
+  // ========== MOBILE HEADER ==========
+  .mobile-header {
+    display: none;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: rgba(246, 247, 248, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+
+    .mobile-top-bar {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      justify-content: space-between;
+
+      .back-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1e293b;
+        text-decoration: none;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+        flex: 1;
+        text-align: center;
+      }
+
+      .notif-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: #1e293b;
+        cursor: pointer;
+      }
+    }
+
+    .mobile-filter-chips {
+      display: flex;
+      gap: 8px;
+      padding: 0 16px 12px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      button {
+        display: flex;
+        height: 36px;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        border-radius: 9999px;
+        padding: 0 16px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-color: rgba(241, 245, 249, 0.8);
+        color: #475569;
+
+        span {
+          font-size: 13px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+
+        &.active {
+          background-color: var(--mat-sys-primary);
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  // ========== GRID ==========
   .grid-container {
     padding: 32px 40px;
     flex: 1;
@@ -76,14 +167,76 @@
     }
   }
 
-  @media (max-width: 1024px) {
-    .page-header, .grid-container {
-      padding: 24px;
+  // ========== BOTTOM NAV ==========
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(15, 88, 189, 0.1);
+    height: 64px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      text-decoration: none;
+      color: #94a3b8;
+      transition: color 0.2s ease;
+
+      mat-icon {
+        font-size: 24px;
+        height: 24px;
+        width: 24px;
+      }
+
+      span {
+        font-size: 10px;
+        font-weight: 500;
+        margin-top: 2px;
+      }
+
+      &.active {
+        color: var(--mat-sys-primary);
+
+        span {
+          font-weight: 700;
+        }
+      }
     }
-    
-    .filter-tabs {
-      width: 100%;
-      overflow-x: auto;
+  }
+
+  // ========== RESPONSIVE ==========
+  @media (max-width: 1024px) {
+    .desktop-header {
+      display: none !important;
+    }
+
+    .mobile-header {
+      display: flex !important;
+    }
+
+    .grid-container {
+      padding: 16px;
+      padding-bottom: 80px;
+
+      .funds-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    .bottom-nav {
+      display: flex !important;
     }
   }
 }

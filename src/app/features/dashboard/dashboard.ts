@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TransactionRow } from '../../shared/components/transaction-row/transaction-row';
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
@@ -9,7 +10,7 @@ import { CurrencyFormatPipe } from '../../shared/pipes/currency-format-pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, MatIconModule, TransactionRow, Sidebar, CurrencyFormatPipe],
+  imports: [CommonModule, RouterModule, MatIconModule, TransactionRow, Sidebar, CurrencyFormatPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

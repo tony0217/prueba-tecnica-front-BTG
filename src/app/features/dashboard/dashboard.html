@@ -2,11 +2,8 @@
   <app-sidebar></app-sidebar>
   
   <main class="page-content">
-    <header class="page-header">
-      <div class="mobile-menu">
-        <mat-icon>menu</mat-icon>
-        <h2>FundWise</h2>
-      </div>
+    <!-- Desktop Header -->
+    <header class="page-header desktop-header">
       <div class="header-titles">
         <h1>Overview</h1>
       </div>
@@ -16,76 +13,125 @@
       </div>
     </header>
 
+    <!-- Mobile Header -->
+    <header class="page-header mobile-header">
+      <div class="user-avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="welcome-text">
+        <p class="greeting">Bienvenido,</p>
+        <h2>Inversor BTG</h2>
+      </div>
+      <button class="icon-btn notification-btn">
+        <mat-icon>notifications</mat-icon>
+      </button>
+    </header>
+
     <div class="dashboard-grid">
-      <!-- Balance section -->
-      <section class="overview-section">
-        <div class="main-balance-card highlight">
-          <div class="deco-circle"></div>
-          <div class="content">
-            <p class="subtitle">Saldo Disponible</p>
-            <div class="amount-row">
-              <h2>{{ balance().available | currencyFormat }}</h2>
-            </div>
+      <!-- Balance Card -->
+      <section class="balance-card">
+        <div class="balance-deco"></div>
+        <div class="balance-content">
+          <div class="balance-info">
+            <p class="balance-label">Saldo Disponible</p>
+            <h2 class="balance-amount">{{ balance().available | currencyFormat }}</h2>
+            <p class="balance-trend">
+              <mat-icon class="trend-icon">trending_up</mat-icon>
+              Patrimonio: {{ balance().available + balance().invested | currencyFormat }}
+            </p>
+          </div>
+          <mat-icon class="wallet-icon">account_balance_wallet</mat-icon>
+        </div>
+        <div class="balance-actions">
+          <a routerLink="/funds-explorer" class="action-btn primary-action">
+            <mat-icon>add_circle</mat-icon>
+            <span>Invertir</span>
+          </a>
+          <a routerLink="/my-investments" class="action-btn secondary-action">
+            <mat-icon>call_made</mat-icon>
+            <span>Mis Fondos</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Stats Cards (Desktop) -->
+      <section class="stats-section">
+        <div class="stat-card">
+          <div class="stat-top">
+            <p class="stat-label">Total Invertido</p>
+            <h3 class="stat-value">{{ balance().invested | currencyFormat }}</h3>
+          </div>
+          <div class="stat-bottom">
+            <span>Portafolio Activo</span>
           </div>
         </div>
-
-        <div class="main-balance-card standard">
-          <div class="content-top">
-            <p class="subtitle">Total Invertido</p>
-            <h3>{{ balance().invested | currencyFormat }}</h3>
-          </div>
-          <div class="content-bottom">
-            <div class="goal-header">
-              <span>Portafolio Activo</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="main-balance-card standard">
-          <div class="content-top">
-            <p class="subtitle">Patrimonio Total</p>
-            <h3>{{ balance().available + balance().invested | currencyFormat }}</h3>
+        <div class="stat-card">
+          <div class="stat-top">
+            <p class="stat-label">Patrimonio Total</p>
+            <h3 class="stat-value">{{ balance().available + balance().invested | currencyFormat }}</h3>
           </div>
         </div>
       </section>
 
-      <section class="bottom-grid">
-        <!-- Portfolio Performance Placeholder -->
-        <div class="performance-area">
-          <div class="section-header">
-            <h3>Rendimiento del Portafolio</h3>
-          </div>
-          <div class="chart-placeholder">
-            <div class="bar" style="height: 40%"></div>
-            <div class="bar" style="height: 60%"></div>
-            <div class="bar" style="height: 55%"></div>
-            <div class="bar" style="height: 75%"></div>
-            <div class="bar primary" style="height: 90%"></div>
-            <div class="bar" style="height: 85%"></div>
-          </div>
+      <!-- Portfolio Performance -->
+      <section class="performance-section">
+        <div class="section-header">
+          <h3>Rendimiento del Portafolio</h3>
         </div>
+        <div class="chart-container">
+          <div class="bar" style="height: 50%"></div>
+          <div class="bar" style="height: 65%"></div>
+          <div class="bar" style="height: 40%"></div>
+          <div class="bar" style="height: 75%"></div>
+          <div class="bar" style="height: 60%"></div>
+          <div class="bar active" style="height: 100%"></div>
+          <div class="bar" style="height: 67%"></div>
+          <div class="bar" style="height: 50%"></div>
+          <div class="bar" style="height: 80%"></div>
+          <div class="bar active" style="height: 85%"></div>
+        </div>
+      </section>
 
-        <!-- Transactions section -->
-        <div class="transactions-section">
-          <div class="section-header">
-            <h3>Transacciones Recientes</h3>
-          </div>
-          
-          <div class="transactions-list">
-            <ng-container *ngIf="(transactions$ | async) as transactions">
-              <app-transaction-row 
-                *ngFor="let tx of transactions.slice(0, 5)" 
-                [transaction]="tx">
-              </app-transaction-row>
-              
-              <div class="empty-state" *ngIf="transactions.length === 0">
-                <mat-icon>receipt_long</mat-icon>
-                <p>Aún no tienes transacciones recientes.</p>
-              </div>
-            </ng-container>
-          </div>
+      <!-- Recent Transactions -->
+      <section class="transactions-section">
+        <div class="section-header">
+          <h3>Transacciones Recientes</h3>
+          <a routerLink="/transaction-history" class="view-all">Ver Todo</a>
+        </div>
+        <div class="transactions-list">
+          <ng-container *ngIf="(transactions$ | async) as transactions">
+            <app-transaction-row 
+              *ngFor="let tx of transactions.slice(0, 5)" 
+              [transaction]="tx">
+            </app-transaction-row>
+            
+            <div class="empty-state" *ngIf="transactions.length === 0">
+              <mat-icon>receipt_long</mat-icon>
+              <p>Aún no tienes transacciones recientes.</p>
+            </div>
+          </ng-container>
         </div>
       </section>
     </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/funds-explorer" routerLinkActive="active" class="nav-item">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>Fondos</span>
+      </a>
+      <a routerLink="/my-investments" routerLinkActive="active" class="nav-item">
+        <mat-icon>analytics</mat-icon>
+        <span>Invertir</span>
+      </a>
+      <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">
+        <mat-icon>history</mat-icon>
+        <span>Historial</span>
+      </a>
+    </nav>
   </main>
 </div>

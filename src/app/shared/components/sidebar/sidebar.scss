@@ -114,17 +114,57 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .sidebar {
-    width: 80px;
+    display: none;
+  }
+}
 
-    .logo h2, .nav-item span, .user-info {
-      display: none;
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .sidebar {
+    width: 72px;
+    overflow: hidden;
+
+    .sidebar-header {
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+
+      .logo {
+        justify-content: center;
+
+        h2 {
+          display: none;
+        }
+      }
     }
 
-    .nav-item {
+    .sidebar-nav {
+      padding: 0 8px;
+
+      .nav-item {
+        justify-content: center;
+        padding: 12px 0;
+        gap: 0;
+
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .sidebar-footer {
+      padding: 16px 0;
+      display: flex;
       justify-content: center;
-      padding: 12px 0;
+
+      .user-profile {
+        justify-content: center;
+
+        .user-info {
+          display: none;
+        }
+      }
     }
   }
 }

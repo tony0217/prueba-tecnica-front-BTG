@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FundCard } from '../../shared/components/fund-card/fund-card';
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
@@ -11,7 +13,7 @@ import { BalanceService } from '../../core/services/balance';
 
 @Component({
   selector: 'app-funds-explorer',
-  imports: [CommonModule, FundCard, Sidebar],
+  imports: [CommonModule, RouterModule, MatIconModule, FundCard, Sidebar],
   templateUrl: './funds-explorer.html',
   styleUrl: './funds-explorer.scss',
 })
@@ -59,7 +61,7 @@ export class FundsExplorer implements OnInit {
             amount: result.amount,
             date: new Date().toISOString(),
             notificationMethod: result.notification
-          }).subscribe(); // subscribe to actually fire HTTP request
+          }).subscribe();
         }
       }
     });
