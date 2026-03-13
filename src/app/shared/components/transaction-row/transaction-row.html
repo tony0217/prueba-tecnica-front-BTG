@@ -1,0 +1,16 @@
+<div class="transaction-row">
+  <div class="transaction-icon" [class.subscription]="transaction.type === 'subscription'">
+    <mat-icon>{{ transaction.type === 'subscription' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+  </div>
+  
+  <div class="transaction-info">
+    <div class="title">{{ transaction.type === 'subscription' ? 'Apertura' : 'Cancelación' }} - {{ transaction.fundName }}</div>
+    <div class="date">{{ transaction.date | date:'medium' }}</div>
+  </div>
+  
+  <div class="transaction-amount" [class.subscription]="transaction.type === 'subscription'">
+    {{ transaction.type === 'subscription' ? '-' : '+' }}{{ transaction.amount | currencyFormat }}
+  </div>
+  
+  <div class="transaction-status">Completada</div>
+</div>

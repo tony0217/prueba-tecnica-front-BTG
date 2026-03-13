@@ -1,0 +1,51 @@
+.fund-disclaimer {
+  background-color: #f5f7fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.5;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .financial-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        color: #777777;
+      }
+
+      strong {
+        color: var(--mat-sys-primary);
+      }
+    }
+  }
+}
+
+.subscription-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+mat-dialog-content {
+  padding-top: 16px !important;
+}

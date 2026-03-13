@@ -1,0 +1,15 @@
+<div class="balance-card">
+  <div class="card-header">
+    <span class="title">{{ title }}</span>
+    <mat-icon *ngIf="icon" class="header-icon">{{ icon }}</mat-icon>
+  </div>
+  
+  <div class="card-body">
+    <h2 class="amount">{{ amount | currencyFormat }}</h2>
+    
+    <div class="trending" *ngIf="trending" [class.up]="trending.isUp" [class.down]="!trending.isUp">
+      <mat-icon>{{ trending.isUp ? 'trending_up' : 'trending_down' }}</mat-icon>
+      <span>{{ trending.value }}% vs último mes</span>
+    </div>
+  </div>
+</div>

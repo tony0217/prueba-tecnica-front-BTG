@@ -1,0 +1,33 @@
+<div class="fund-card">
+  <div class="card-header">
+    <div class="category-badge" [class.fic]="fund.category === 'FIC'">{{ fund.category }}</div>
+    <div class="performance-badge">
+      <mat-icon>trending_up</mat-icon>
+      <span>{{ fund.category === 'FPV' ? '+12.5%' : '+18.4%' }}</span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <h3 class="fund-name">{{ fund.name }}</h3>
+    <p class="fund-description">
+      Fondo de inversión gestionado por expertos para ofrecer crecimiento sostenido.
+    </p>
+
+    <div class="fund-details">
+      <div class="detail-item">
+        <span class="label">Monto mínimo</span>
+        <span class="value">{{ fund.minAmount | currencyFormat }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Riesgo</span>
+        <span class="value">{{ fund.category === 'FPV' ? 'Moderado' : 'Alto' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-actions" *ngIf="showSubscribeButton">
+    <button mat-flat-button color="primary" class="action-btn" (click)="onActionClick()">
+      {{ actionLabel }}
+    </button>
+  </div>
+</div>
