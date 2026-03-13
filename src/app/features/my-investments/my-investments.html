@@ -1,1 +1,94 @@
-<p>my-investments works!</p>
+<div class="layout-container">
+  <app-sidebar></app-sidebar>
+  
+  <main class="page-content">
+    <header class="page-header">
+      <div class="mobile-menu">
+        <mat-icon>menu</mat-icon>
+        <h2>FundWise</h2>
+      </div>
+      <div class="header-titles">
+        <h1>Mis Inversiones</h1>
+        <p>Administra al detalle tus suscripciones de fondos activas</p>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn"><mat-icon>notifications</mat-icon></button>
+        <button class="icon-btn"><mat-icon>settings</mat-icon></button>
+      </div>
+    </header>
+
+    <div class="investments-container">
+      <!-- Summary Stats -->
+      <section class="summary-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <p>Total Valor Invertido</p>
+            <mat-icon>payments</mat-icon>
+          </div>
+          <h3>{{ balance().invested | currencyFormat }}</h3>
+          <div class="stat-footer green-text">
+            <mat-icon>trending_up</mat-icon>
+            <span>Patrimonio protejido</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <p>Suscripciones Activas</p>
+            <mat-icon>list_alt</mat-icon>
+          </div>
+          <h3>{{ activeInvestments.length }} Fondos</h3>
+          <p class="stat-footer-text">Diversificado y listo para crecer</p>
+        </div>
+
+        <div class="stat-card highlight">
+          <div class="stat-header">
+            <p>Saldo Disponible Restante</p>
+            <mat-icon>savings</mat-icon>
+          </div>
+          <h3>{{ balance().available | currencyFormat }}</h3>
+        </div>
+      </section>
+
+      <!-- Active Subscriptions List -->
+      <section class="subscriptions-list-wrapper">
+        <div class="section-header">
+          <h2>Suscripciones Activas de Fondos</h2>
+        </div>
+
+        <div class="subscription-item" *ngFor="let investment of activeInvestments; let i = index">
+          <div class="fund-image" [ngClass]="['bg-gradient-' + (i % 3)]"></div>
+          
+          <div class="fund-details">
+            <div class="fund-title-row">
+              <span class="category-badge">{{ 'Activo' }}</span>
+              <h3>{{ investment.fundName }}</h3>
+            </div>
+            <p class="fund-meta">Suscrito el {{ investment.date | date:'dd MMM yyyy' }}</p>
+          </div>
+
+          <div class="fund-value">
+            <p class="value-label">Valor Invertido</p>
+            <p class="value-amount">{{ investment.amount | currencyFormat }}</p>
+          </div>
+
+          <div class="fund-actions">
+            <!-- For demonstration purposes we could allow adding or withdrawing full amount-->
+            <button class="btn-cancel" (click)="cancelSubscription(investment)">
+              <mat-icon>logout</mat-icon>
+              Cancelar Fondo
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="activeInvestments.length === 0" class="empty-state">
+          <button class="explore-btn" routerLink="/funds-explorer">
+            <mat-icon>add_circle</mat-icon>
+            Explorar Nuevos Fondos
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

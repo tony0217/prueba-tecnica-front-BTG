@@ -7,6 +7,7 @@ import { FundsService } from '../../core/services/funds';
 import { Fund } from '../../core/models/fund.model';
 import { SubscriptionDialog } from '../../shared/components/subscription-dialog/subscription-dialog';
 import { TransactionService } from '../../core/services/transaction';
+import { BalanceService } from '../../core/services/balance';
 
 @Component({
   selector: 'app-funds-explorer',
@@ -17,6 +18,7 @@ import { TransactionService } from '../../core/services/transaction';
 export class FundsExplorer implements OnInit {
   private fundsService = inject(FundsService);
   private transactionService = inject(TransactionService);
+  private balanceService = inject(BalanceService);
   private dialog = inject(MatDialog);
 
   funds: Fund[] = [];
@@ -49,14 +51,16 @@ export class FundsExplorer implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.transactionService.addTransaction({
-          fundId: fund.id,
-          fundName: fund.name,
-          type: 'subscription',
-          amount: result.amount,
-          date: new Date().toISOString(),
-          notificationMethod: result.notification
-        });
+        if (this.balanceService.deductAvailable(result.amount)) {
+          this.transactionService.addTransaction({
+            fundId: fund.id,
+            fundName: fund.name,
+            type: 'subscription',
+            amount: result.amount,
+            date: new Date().toISOString(),
+            notificationMethod: result.notification
+          }).subscribe(); // subscribe to actually fire HTTP request
+        }
       }
     });
   }
