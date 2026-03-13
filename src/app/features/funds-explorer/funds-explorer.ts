@@ -1,9 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { FundCard } from '../../shared/components/fund-card/fund-card';
+import { Sidebar } from '../../shared/components/sidebar/sidebar';
+import { FundsService } from '../../core/services/funds';
+import { Fund } from '../../core/models/fund.model';
+import { SubscriptionDialog } from '../../shared/components/subscription-dialog/subscription-dialog';
+import { TransactionService } from '../../core/services/transaction';
 
 @Component({
   selector: 'app-funds-explorer',
-  imports: [],
+  imports: [CommonModule, FundCard, Sidebar],
   templateUrl: './funds-explorer.html',
   styleUrl: './funds-explorer.scss',
 })
-export class FundsExplorer {}
+export class FundsExplorer implements OnInit {
+  private fundsService = inject(FundsService);
+  private transactionService = inject(TransactionService);
+  private dialog = inject(MatDialog);
+
+  funds: Fund[] = [];
+  filteredFunds: Fund[] = [];
+  activeFilter: 'ALL' | 'FPV' | 'FIC' = 'ALL';
+
+  ngOnInit() {
+    this.fundsService.getFunds().subscribe((funds) => {
+      this.funds = funds;
+      this.applyFilter('ALL');
+    });
+  }
+
+  applyFilter(filter: 'ALL' | 'FPV' | 'FIC') {
+    this.activeFilter = filter;
+    if (filter === 'ALL') {
+      this.filteredFunds = [...this.funds];
+    } else {
+      this.filteredFunds = this.funds.filter(f => f.category === filter);
+    }
+  }
+
+  openSubscriptionDialog(fund: Fund) {
+    const dialogRef = this.dialog.open(SubscriptionDialog, {
+      data: { fund },
+      width: '500px',
+      maxWidth: '95vw',
+      panelClass: 'subscription-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.transactionService.addTransaction({
+          fundId: fund.id,
+          fundName: fund.name,
+          type: 'subscription',
+          amount: result.amount,
+          date: new Date().toISOString(),
+          notificationMethod: result.notification
+        });
+      }
+    });
+  }
+}

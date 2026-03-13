@@ -1,1 +1,28 @@
-<p>funds-explorer works!</p>
+<div class="layout-container">
+  <app-sidebar></app-sidebar>
+  
+  <main class="page-content">
+    <header class="page-header">
+      <div class="header-titles">
+        <h1>Explorador de Fondos</h1>
+        <p>Descubre oportunidades y fondos administrados por expertos.</p>
+      </div>
+
+      <div class="filter-tabs">
+        <button [class.active]="activeFilter === 'ALL'" (click)="applyFilter('ALL')">Todos los Fondos</button>
+        <button [class.active]="activeFilter === 'FPV'" (click)="applyFilter('FPV')">Voluntaria (FPV)</button>
+        <button [class.active]="activeFilter === 'FIC'" (click)="applyFilter('FIC')">Inversión (FIC)</button>
+      </div>
+    </header>
+
+    <div class="grid-container">
+      <div class="funds-grid">
+        <app-fund-card 
+          *ngFor="let fund of filteredFunds" 
+          [fund]="fund"
+          (actionClick)="openSubscriptionDialog($event)">
+        </app-fund-card>
+      </div>
+    </div>
+  </main>
+</div>

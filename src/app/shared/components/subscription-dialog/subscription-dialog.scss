@@ -1,51 +1,246 @@
-.fund-disclaimer {
-  background-color: #f5f7fa;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  font-size: 14px;
-  color: #555555;
-  line-height: 1.5;
+.modal-header {
+  background-color: var(--mat-sys-primary);
+  padding: 24px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
-  p {
-    margin-top: 0;
-    margin-bottom: 12px;
+  .title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
   }
 
-  .financial-details {
+  .subtitle {
+    margin: 4px 0 0 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background-color: #ffffff;
-    padding: 12px;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
 
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-
-      span {
-        color: #777777;
-      }
-
-      strong {
-        color: var(--mat-sys-primary);
-      }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 }
 
-.subscription-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.modal-body {
+  padding: 32px;
+  background-color: #ffffff;
 
-  .full-width {
-    width: 100%;
+  .form-section {
+    margin-bottom: 32px;
+
+    .section-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .amount-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .currency-symbol {
+        position: absolute;
+        left: 16px;
+        color: #94a3b8;
+        font-weight: 700;
+        font-size: 24px;
+      }
+
+      .amount-input {
+        width: 100%;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px 16px 16px 40px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        outline: none;
+        transition: all 0.2s;
+
+        &:focus {
+          border-color: var(--mat-sys-primary);
+          box-shadow: 0 0 0 2px rgba(15, 88, 189, 0.1);
+        }
+
+        &.has-error {
+          border-color: #ef4444;
+          background-color: #fef2f2;
+        }
+
+        &::-webkit-inner-spin-button, 
+        &::-webkit-outer-spin-button { 
+          -webkit-appearance: none; 
+          margin: 0; 
+        }
+      }
+
+      .quick-actions {
+        position: absolute;
+        right: 16px;
+        display: flex;
+        gap: 8px;
+
+        button {
+          padding: 4px 12px;
+          font-size: 12px;
+          font-weight: 700;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-min {
+          background-color: rgba(15, 88, 189, 0.1);
+          color: var(--mat-sys-primary);
+          border: 1px solid rgba(15, 88, 189, 0.2);
+
+          &:hover {
+            background-color: rgba(15, 88, 189, 0.15);
+          }
+        }
+
+        .btn-max {
+          background-color: #f1f5f9;
+          color: #64748b;
+          border: 1px solid #e2e8f0;
+
+          &:hover {
+            background-color: #e2e8f0;
+          }
+        }
+      }
+    }
+
+    .error-messages {
+      margin-top: 8px;
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .balance-hint {
+      margin: 8px 0 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .notification-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+
+      .radio-card {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 2px solid #f1f5f9;
+        transition: all 0.2s;
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+
+        mat-icon {
+          color: #94a3b8;
+          font-size: 32px;
+          height: 32px;
+          width: 32px;
+          transition: color 0.2s;
+        }
+
+        span {
+          font-weight: 600;
+          color: #334155;
+        }
+
+        &.selected {
+          border-color: var(--mat-sys-primary);
+          background-color: rgba(15, 88, 189, 0.05);
+
+          mat-icon {
+            color: var(--mat-sys-primary);
+          }
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .confirm-btn {
+      width: 100%;
+      background-color: var(--mat-sys-primary);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px 0 rgba(15, 88, 189, 0.39);
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) {
+        background-color: #0d4a9e;
+        box-shadow: 0 6px 20px rgba(15, 88, 189, 0.4);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        background-color: #cbd5e1;
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+    }
+
+    .terms-text {
+      margin: 0;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.5;
+      padding: 0 16px;
+    }
   }
 }
 
-mat-dialog-content {
-  padding-top: 16px !important;
+::ng-deep .subscription-dialog-panel {
+  .mdc-dialog__surface {
+    border-radius: 16px !important;
+    overflow: hidden;
+  }
 }

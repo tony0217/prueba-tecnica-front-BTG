@@ -6,10 +6,11 @@ import { TransactionRow } from '../../shared/components/transaction-row/transact
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
 import { BalanceService } from '../../core/services/balance';
 import { TransactionService } from '../../core/services/transaction';
+import { CurrencyFormatPipe } from '../../shared/pipes/currency-format-pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, MatIconModule, BalanceCard, TransactionRow, Sidebar],
+  imports: [CommonModule, MatIconModule, BalanceCard, TransactionRow, Sidebar, CurrencyFormatPipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

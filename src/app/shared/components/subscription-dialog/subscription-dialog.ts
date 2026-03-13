@@ -1,5 +1,6 @@
 import { Component, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +16,8 @@ import { CurrencyFormatPipe } from '../../pipes/currency-format-pipe';
   selector: 'app-subscription-dialog',
   imports: [
     CommonModule, ReactiveFormsModule, MatDialogModule, MatButtonModule, 
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, CurrencyFormatPipe
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, 
+    CurrencyFormatPipe, MatIconModule
   ],
   templateUrl: './subscription-dialog.html',
   styleUrl: './subscription-dialog.scss',
@@ -55,5 +57,13 @@ export class SubscriptionDialog {
       }
       this.dialogRef.close(this.subscriptionForm.value);
     }
+  }
+
+  setMin(): void {
+    this.subscriptionForm.patchValue({ amount: this.fund.minAmount });
+  }
+
+  setMax(): void {
+    this.subscriptionForm.patchValue({ amount: this.availableBalance });
   }
 }

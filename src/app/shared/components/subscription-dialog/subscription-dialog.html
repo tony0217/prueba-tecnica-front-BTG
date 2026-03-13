@@ -1,39 +1,70 @@
-<h2 mat-dialog-title>Suscribirse a {{ fund.name }}</h2>
-<mat-dialog-content>
-  <div class="fund-disclaimer">
-    <p>Al hacer clic en confirmar, aceptas los Términos y Condiciones y entiendes que los valores de inversión pueden fluctuar.</p>
-    <div class="financial-details">
-      <div class="detail-row">
-        <span>Monto Mínimo:</span>
-        <strong>{{ fund.minAmount | currencyFormat }}</strong>
+<div class="modal-header">
+  <div>
+    <h2 class="title">Suscribirse al Fondo</h2>
+    <p class="subtitle">{{ fund.name }}</p>
+  </div>
+  <button class="close-btn" (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="subscriptionForm">
+    <div class="form-section">
+      <label class="section-label">Monto de Inversión</label>
+      <div class="amount-input-wrapper">
+        <span class="currency-symbol">$</span>
+        <input 
+          type="number" 
+          formControlName="amount" 
+          class="amount-input" 
+          placeholder="0.00"
+          [class.has-error]="subscriptionForm.get('amount')?.invalid && subscriptionForm.get('amount')?.touched"
+        />
+        <div class="quick-actions">
+          <button type="button" class="btn-min" (click)="setMin()">MIN</button>
+          <button type="button" class="btn-max" (click)="setMax()">MAX</button>
+        </div>
       </div>
-      <div class="detail-row">
-        <span>Tu Saldo Disponible:</span>
-        <strong>{{ availableBalance | currencyFormat }}</strong>
+      
+      <!-- Error messages -->
+      <div class="error-messages" *ngIf="subscriptionForm.get('amount')?.invalid && subscriptionForm.get('amount')?.touched">
+        <span *ngIf="subscriptionForm.get('amount')?.hasError('required')">El monto es requerido.</span>
+        <span *ngIf="subscriptionForm.get('amount')?.hasError('min')">El mínimo para este fondo es {{ fund.minAmount | currencyFormat }}.</span>
+        <span *ngIf="subscriptionForm.get('amount')?.hasError('max') || subscriptionForm.get('amount')?.hasError('insufficientFunds')">No tienes saldo suficiente.</span>
+      </div>
+
+      <p class="balance-hint">Saldo disponible: {{ availableBalance | currencyFormat }}</p>
+    </div>
+
+    <div class="form-section">
+      <label class="section-label">Método de Notificación</label>
+      <div class="notification-options">
+        <label class="radio-card" [class.selected]="subscriptionForm.get('notification')?.value === 'email'">
+          <input type="radio" formControlName="notification" value="email" class="sr-only">
+          <mat-icon>mail</mat-icon>
+          <span>Email</span>
+        </label>
+        
+        <label class="radio-card" [class.selected]="subscriptionForm.get('notification')?.value === 'sms'">
+          <input type="radio" formControlName="notification" value="sms" class="sr-only">
+          <mat-icon>sms</mat-icon>
+          <span>SMS</span>
+        </label>
       </div>
     </div>
-  </div>
 
-  <form [formGroup]="subscriptionForm" class="subscription-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Monto a invertir (COP)</mat-label>
-      <input matInput type="number" formControlName="amount" placeholder="Ej: {{ fund.minAmount }}">
-      <mat-error *ngIf="subscriptionForm.get('amount')?.hasError('required')">El monto es requerido.</mat-error>
-      <mat-error *ngIf="subscriptionForm.get('amount')?.hasError('min')">El mínimo para este fondo es {{ fund.minAmount | currencyFormat }}.</mat-error>
-      <mat-error *ngIf="subscriptionForm.get('amount')?.hasError('max') || subscriptionForm.get('amount')?.hasError('insufficientFunds')">No tienes saldo suficiente ({{ availableBalance | currencyFormat }}).</mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Método de Notificación</mat-label>
-      <mat-select formControlName="notification">
-        <mat-option value="email">Correo Electrónico (Email)</mat-option>
-        <mat-option value="sms">Mensaje de Texto (SMS)</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="confirm-btn" 
+        [disabled]="!subscriptionForm.valid" 
+        (click)="onSubscribe()">
+        Confirmar Inversión
+      </button>
+      <p class="terms-text">
+        Al hacer clic en confirmar, aceptas los Términos y Condiciones y entiendes que los valores de inversión pueden fluctuar.
+      </p>
+    </div>
   </form>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-flat-button color="primary" [disabled]="!subscriptionForm.valid" (click)="onSubscribe()">Confirmar Suscripción</button>
-</mat-dialog-actions>
+</div>

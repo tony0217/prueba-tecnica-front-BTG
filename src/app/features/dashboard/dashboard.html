@@ -3,55 +3,87 @@
   
   <main class="page-content">
     <header class="page-header">
+      <div class="mobile-menu">
+        <mat-icon>menu</mat-icon>
+        <h2>FundWise</h2>
+      </div>
       <div class="header-titles">
-        <h1>Resumen General</h1>
-        <p>Bienvenido de nuevo, visualiza el estado de tu portafolio.</p>
+        <h1>Overview</h1>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn"><mat-icon>notifications</mat-icon></button>
+        <button class="icon-btn"><mat-icon>settings</mat-icon></button>
       </div>
     </header>
 
     <div class="dashboard-grid">
       <!-- Balance section -->
       <section class="overview-section">
-        <h2>General</h2>
-        <div class="cards-grid">
-          <app-balance-card 
-            title="Saldo Disponible" 
-            [amount]="balance().available"
-            icon="account_balance_wallet">
-          </app-balance-card>
-          
-          <app-balance-card 
-            title="Total Invertido" 
-            [amount]="balance().invested"
-            icon="pie_chart">
-          </app-balance-card>
+        <div class="main-balance-card highlight">
+          <div class="deco-circle"></div>
+          <div class="content">
+            <p class="subtitle">Saldo Disponible</p>
+            <div class="amount-row">
+              <h2>{{ balance().available | currencyFormat }}</h2>
+            </div>
+          </div>
+        </div>
 
-          <app-balance-card 
-            title="Patrimonio Total" 
-            [amount]="balance().available + balance().invested"
-            icon="monetization_on">
-          </app-balance-card>
+        <div class="main-balance-card standard">
+          <div class="content-top">
+            <p class="subtitle">Total Invertido</p>
+            <h3>{{ balance().invested | currencyFormat }}</h3>
+          </div>
+          <div class="content-bottom">
+            <div class="goal-header">
+              <span>Portafolio Activo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-balance-card standard">
+          <div class="content-top">
+            <p class="subtitle">Patrimonio Total</p>
+            <h3>{{ balance().available + balance().invested | currencyFormat }}</h3>
+          </div>
         </div>
       </section>
 
-      <!-- Transactions section -->
-      <section class="transactions-section">
-        <div class="section-header">
-          <h2>Transacciones Recientes</h2>
+      <section class="bottom-grid">
+        <!-- Portfolio Performance Placeholder -->
+        <div class="performance-area">
+          <div class="section-header">
+            <h3>Rendimiento del Portafolio</h3>
+          </div>
+          <div class="chart-placeholder">
+            <div class="bar" style="height: 40%"></div>
+            <div class="bar" style="height: 60%"></div>
+            <div class="bar" style="height: 55%"></div>
+            <div class="bar" style="height: 75%"></div>
+            <div class="bar primary" style="height: 90%"></div>
+            <div class="bar" style="height: 85%"></div>
+          </div>
         </div>
-        
-        <div class="transactions-list">
-          <ng-container *ngIf="(transactions$ | async) as transactions">
-            <app-transaction-row 
-              *ngFor="let tx of transactions.slice(0, 5)" 
-              [transaction]="tx">
-            </app-transaction-row>
-            
-            <div class="empty-state" *ngIf="transactions.length === 0">
-              <mat-icon>receipt_long</mat-icon>
-              <p>Aún no tienes transacciones recientes.</p>
-            </div>
-          </ng-container>
+
+        <!-- Transactions section -->
+        <div class="transactions-section">
+          <div class="section-header">
+            <h3>Transacciones Recientes</h3>
+          </div>
+          
+          <div class="transactions-list">
+            <ng-container *ngIf="(transactions$ | async) as transactions">
+              <app-transaction-row 
+                *ngFor="let tx of transactions.slice(0, 5)" 
+                [transaction]="tx">
+              </app-transaction-row>
+              
+              <div class="empty-state" *ngIf="transactions.length === 0">
+                <mat-icon>receipt_long</mat-icon>
+                <p>Aún no tienes transacciones recientes.</p>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </section>
     </div>

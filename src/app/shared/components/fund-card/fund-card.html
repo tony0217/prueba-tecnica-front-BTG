@@ -1,33 +1,34 @@
-<div class="fund-card">
-  <div class="card-header">
-    <div class="category-badge" [class.fic]="fund.category === 'FIC'">{{ fund.category }}</div>
-    <div class="performance-badge">
-      <mat-icon>trending_up</mat-icon>
-      <span>{{ fund.category === 'FPV' ? '+12.5%' : '+18.4%' }}</span>
+<div class="fund-card group">
+  <div class="card-hero" [ngClass]="fund.category === 'FIC' ? 'fic-gradient' : 'fpv-gradient'">
+    <div class="risk-badge" [ngClass]="fund.category === 'FIC' ? 'fic-text' : 'fpv-text'">
+      {{ fund.category === 'FIC' ? 'Alta Volatilidad' : 'Moderado' }}
+    </div>
+    <div class="return-info">
+      <span class="return-label">Retorno Anual Estimado</span>
+      <p class="return-value">{{ fund.category === 'FIC' ? '+18.4%' : '+12.5%' }}</p>
     </div>
   </div>
 
-  <div class="card-content">
+  <div class="card-body">
     <h3 class="fund-name">{{ fund.name }}</h3>
     <p class="fund-description">
-      Fondo de inversión gestionado por expertos para ofrecer crecimiento sostenido.
+      Fondo de inversión de categoría {{ fund.category }} orientado a maximizar rentabilidad con gestión experta de portafolios indexados y diversificados de la compañía.
     </p>
 
-    <div class="fund-details">
-      <div class="detail-item">
-        <span class="label">Monto mínimo</span>
-        <span class="value">{{ fund.minAmount | currencyFormat }}</span>
+    <div class="fund-metrics">
+      <div class="metric">
+        <p class="metric-label">Min. Suscripción</p>
+        <p class="metric-value">{{ fund.minAmount | currencyFormat }}</p>
       </div>
-      <div class="detail-item">
-        <span class="label">Riesgo</span>
-        <span class="value">{{ fund.category === 'FPV' ? 'Moderado' : 'Alto' }}</span>
+      <div class="metric right-align">
+        <p class="metric-label">Categoría</p>
+        <p class="metric-value badge-style">{{ fund.category }}</p>
       </div>
     </div>
-  </div>
 
-  <div class="card-actions" *ngIf="showSubscribeButton">
-    <button mat-flat-button color="primary" class="action-btn" (click)="onActionClick()">
-      {{ actionLabel }}
+    <button *ngIf="showSubscribeButton" class="subscribe-btn" (click)="onActionClick()">
+      <mat-icon>add_circle</mat-icon>
+      <span>{{ actionLabel }}</span>
     </button>
   </div>
 </div>
