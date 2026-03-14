@@ -76,6 +76,24 @@
       "amount": 75000,
       "date": "2026-03-14T03:59:20.778Z",
       "notificationMethod": "sms"
+    },
+    {
+      "id": "c6a8",
+      "fundId": "1",
+      "fundName": "FPV_BTG_PACTUAL_RECAUDADORA",
+      "type": "subscription",
+      "amount": 80000,
+      "date": "2026-03-14T04:10:31.346Z",
+      "notificationMethod": "email"
+    },
+    {
+      "id": "3a9c",
+      "fundId": "1",
+      "fundName": "FPV_BTG_PACTUAL_RECAUDADORA",
+      "type": "subscription",
+      "amount": 80000,
+      "date": "2026-03-14T04:11:20.060Z",
+      "notificationMethod": "email"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
