@@ -2,26 +2,35 @@
   <app-sidebar></app-sidebar>
   
   <main class="page-content">
-    <header class="page-header">
-      <div class="mobile-menu">
-        <mat-icon>menu</mat-icon>
-        <h2>FundWise</h2>
-      </div>
+    <!-- Desktop Header -->
+    <header class="page-header desktop-header">
       <div class="header-titles">
         <h1>Historial de Transacciones</h1>
         <p>Gestiona y rastrea tu actividad de inversión a través de los fondos.</p>
       </div>
       <div class="header-actions">
-        <!-- Optional search / buttons -->
         <button class="icon-btn"><mat-icon>download</mat-icon></button>
         <button class="icon-btn"><mat-icon>print</mat-icon></button>
       </div>
     </header>
 
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+      <div class="mobile-top-bar">
+        <a routerLink="/" class="back-btn">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+        <h1>Historial de Transacciones</h1>
+        <button class="search-btn">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </header>
+
     <div class="transactions-container">
-      
-      <!-- Filters / Tabs -->
-      <div class="tabs-container">
+
+      <!-- Filter Tabs (Desktop) -->
+      <div class="tabs-container desktop-tabs">
         <div class="filter-tabs">
           <button [class.active]="activeFilter === 'ALL'" (click)="applyFilter('ALL')">Todos</button>
           <button [class.active]="activeFilter === 'SUBSCRIPTION'" (click)="applyFilter('SUBSCRIPTION')">Suscripciones</button>
@@ -29,7 +38,20 @@
         </div>
       </div>
 
-      <!-- Table Container -->
+      <!-- Mobile Filter Chips -->
+      <div class="mobile-filter-chips">
+        <button [class.active]="activeFilter === 'ALL'" (click)="applyFilter('ALL')">
+          <span>Todos</span>
+        </button>
+        <button [class.active]="activeFilter === 'SUBSCRIPTION'" (click)="applyFilter('SUBSCRIPTION')">
+          <span>Suscripciones</span>
+        </button>
+        <button [class.active]="activeFilter === 'CANCELLATION'" (click)="applyFilter('CANCELLATION')">
+          <span>Cancelaciones</span>
+        </button>
+      </div>
+
+      <!-- Desktop Table -->
       <div class="table-card">
         <div class="table-wrapper">
           <table>
@@ -43,7 +65,6 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Iterate Rows -->
               <tr *ngFor="let tx of filteredTransactions">
                 <td>
                   <div class="date-col">
@@ -76,27 +97,78 @@
             </tbody>
           </table>
 
-          <!-- Empty State -->
+          <!-- Empty State (Desktop) -->
           <div *ngIf="filteredTransactions.length === 0" class="empty-state">
             <mat-icon>receipt_long</mat-icon>
             <p>No se encontraron transacciones en esta categoría.</p>
           </div>
-
         </div>
 
-        <!-- Pagination (Static/Visual) -->
+        <!-- Pagination -->
         <div class="pagination-footer" *ngIf="filteredTransactions.length > 0">
           <p class="results-text">Mostrando <span>1</span> a <span>{{ filteredTransactions.length }}</span> de <span>{{ filteredTransactions.length }}</span> resultados</p>
-          
           <div class="pagination-controls">
             <button disabled><mat-icon>chevron_left</mat-icon></button>
             <button class="active">1</button>
             <button><mat-icon>chevron_right</mat-icon></button>
           </div>
         </div>
+      </div>
 
+      <!-- Mobile Transaction Cards -->
+      <div class="mobile-transactions">
+        <div class="tx-card" *ngFor="let tx of filteredTransactions">
+          <div class="tx-card-icon" [ngClass]="{
+            'icon-subscription': tx.type === 'subscription',
+            'icon-cancellation': tx.type === 'cancellation'
+          }">
+            <mat-icon>{{ tx.type === 'subscription' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+          </div>
+          <div class="tx-card-info">
+            <span class="tx-date">{{ tx.date | date:'MMM dd, yyyy' }}</span>
+            <h4 class="tx-fund">{{ tx.fundName }}</h4>
+            <span class="tx-type-label">{{ tx.type === 'subscription' ? 'SUSCRIPCIÓN' : 'CANCELACIÓN' }}</span>
+          </div>
+          <div class="tx-card-amount">
+            <span class="tx-amount" [ngClass]="{'is-positive': tx.type === 'subscription'}">
+              {{ tx.type === 'subscription' ? '-' : '+' }}{{ tx.amount | currencyFormat }}
+            </span>
+            <span class="tx-status" [ngClass]="{
+              'status-completed': tx.type === 'subscription',
+              'status-cancelled': tx.type === 'cancellation'
+            }">
+              {{ tx.type === 'subscription' ? 'Completada' : 'Cancelada' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Empty State (Mobile) -->
+        <div *ngIf="filteredTransactions.length === 0" class="empty-state-mobile">
+          <mat-icon>receipt_long</mat-icon>
+          <p>No se encontraron transacciones en esta categoría.</p>
+        </div>
       </div>
 
     </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav">
+      <a routerLink="/dashboard" class="nav-item">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/funds-explorer" class="nav-item">
+        <mat-icon>explore</mat-icon>
+        <span>Fondos</span>
+      </a>
+      <a routerLink="/my-investments" class="nav-item">
+        <mat-icon>analytics</mat-icon>
+        <span>Invertir</span>
+      </a>
+      <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">
+        <mat-icon>history</mat-icon>
+        <span>Historial</span>
+      </a>
+    </nav>
   </main>
 </div>

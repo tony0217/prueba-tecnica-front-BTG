@@ -160,3 +160,46 @@
     }
   }
 }
+
+@media (max-width: 640px) {
+  .fund-card {
+    .card-hero {
+      height: 120px;
+      padding: 12px;
+
+      .return-info {
+        .return-label {
+          font-size: 11px;
+        }
+
+        .return-value {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 16px;
+
+      .fund-name {
+        font-size: 15px;
+        margin: 0 0 6px 0;
+      }
+
+      .fund-description {
+        font-size: 13px;
+        margin: 0 0 12px 0;
+      }
+
+      .fund-metrics {
+        padding: 12px 0;
+        margin-bottom: 16px;
+      }
+
+      .subscribe-btn {
+        padding: 10px;
+        font-size: 13px;
+      }
+    }
+  }
+}

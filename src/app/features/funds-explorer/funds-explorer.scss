@@ -17,14 +17,18 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 32px 40px;
-    background-color: #ffffff;
+    padding: 24px 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
     .header-titles {
       h1 {
         margin: 0;
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 700;
         color: #1e293b;
         letter-spacing: -0.5px;
@@ -32,7 +36,7 @@
       p {
         margin: 4px 0 0 0;
         color: #64748b;
-        font-size: 15px;
+        font-size: 14px;
       }
     }
 
@@ -135,10 +139,10 @@
         gap: 4px;
         border-radius: 9999px;
         padding: 0 16px;
-        border: none;
+        border: 1.5px solid #e2e8f0;
         cursor: pointer;
         transition: all 0.2s ease;
-        background-color: rgba(241, 245, 249, 0.8);
+        background-color: #ffffff;
         color: #475569;
 
         span {
@@ -150,6 +154,7 @@
         &.active {
           background-color: var(--mat-sys-primary);
           color: #ffffff;
+          border-color: var(--mat-sys-primary);
         }
       }
     }
@@ -159,10 +164,13 @@
   .grid-container {
     padding: 32px 40px;
     flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
 
     .funds-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 24px;
     }
   }
@@ -230,13 +238,22 @@
       padding-bottom: 80px;
 
       .funds-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 16px;
       }
     }
 
     .bottom-nav {
       display: flex !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .grid-container {
+      .funds-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
     }
   }
 }

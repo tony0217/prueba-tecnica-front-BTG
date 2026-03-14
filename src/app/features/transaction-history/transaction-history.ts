@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
 import { TransactionService } from '../../core/services/transaction';
@@ -8,7 +9,7 @@ import { CurrencyFormatPipe } from '../../shared/pipes/currency-format-pipe';
 
 @Component({
   selector: 'app-transaction-history',
-  imports: [CommonModule, MatIconModule, Sidebar, CurrencyFormatPipe],
+  imports: [CommonModule, RouterModule, MatIconModule, Sidebar, CurrencyFormatPipe],
   templateUrl: './transaction-history.html',
   styleUrl: './transaction-history.scss',
 })
