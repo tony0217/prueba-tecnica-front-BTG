@@ -276,13 +276,13 @@
                   font-weight: 500;
 
                   &.badge-subscription {
-                    background-color: rgba(59, 130, 246, 0.1);
-                    color: #1d4ed8;
+                    background-color: rgba(15, 88, 189, 0.1);
+                    color: #0f58bd;
                   }
 
                   &.badge-cancellation {
                     background-color: rgba(239, 68, 68, 0.1);
-                    color: #b91c1c;
+                    color: #ef4444;
                   }
                 }
 
@@ -316,8 +316,12 @@
                   font-weight: 600;
                   color: #0f172a;
 
-                  &.is-subscription {
-                    color: #1d4ed8;
+                  &.is-negative {
+                    color: #ef4444; // Red
+                  }
+                  
+                  &.is-positive {
+                    color: #10b981; // Green
                   }
                 }
               }
@@ -330,21 +334,23 @@
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 64px 32px;
+          padding: 80px 32px;
           color: #94a3b8;
+          gap: 16px; // Más fiable que margin-bottom para separar elementos en flex
 
           mat-icon {
-            font-size: 48px;
-            height: 48px;
-            width: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+            font-size: 64px; // Un poco más grande para que destaque
+            height: 64px;
+            width: 64px;
+            opacity: 0.3;
+            display: block; // Asegura que se comporte como un bloque en el flex
           }
 
           p {
             margin: 0;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
+            text-align: center;
           }
         }
       }
@@ -450,13 +456,13 @@
           }
 
           &.icon-subscription {
-            background-color: rgba(59, 130, 246, 0.1);
-            color: #2563eb;
+            background-color: rgba(15, 88, 189, 0.1);
+            color: #0f58bd;
           }
 
           &.icon-cancellation {
             background-color: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
+            color: #ef4444;
           }
         }
 
@@ -502,10 +508,14 @@
           .tx-amount {
             font-size: 15px;
             font-weight: 700;
-            color: #dc2626;
+            color: #0f172a;
+
+            &.is-negative {
+              color: #ef4444; // Red
+            }
 
             &.is-positive {
-              color: #0f172a;
+              color: #10b981; // Green
             }
           }
 
@@ -561,9 +571,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 50;
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
+    z-index: 999;
+    background-color: #ffffff;
     border-top: 1px solid rgba(15, 88, 189, 0.1);
     height: 64px;
     align-items: center;
@@ -635,6 +644,79 @@
       .mobile-transactions {
         display: flex !important;
       }
+    }
+  }
+
+  // ========== PRINT / PDF STYLES ==========
+  @media print {
+    app-sidebar,
+    .desktop-header,
+    .mobile-header,
+    .tabs-container,
+    .mobile-filter-chips,
+    .pagination-footer,
+    .bottom-nav {
+      display: none !important;
+    }
+
+    .layout-container {
+      background-color: #ffffff !important;
+      min-height: auto !important;
+      display: block !important;
+    }
+
+    .page-content {
+      background-color: #ffffff !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+
+    .transactions-container {
+      padding: 2.5cm !important; // Add some margins for PDF
+      margin: 0 !important;
+      max-width: none !important;
+      width: 100% !important;
+      display: block !important;
+    }
+
+    .table-card {
+      display: block !important; // Force table visibility for PDF/Print
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: none !important;
+    }
+
+    .mobile-transactions {
+      display: none !important; // Hide cards in PDF/Print
+    }
+
+    .tx-card {
+      box-shadow: none !important;
+      border: 1px solid #f1f5f9 !important;
+      break-inside: avoid;
+    }
+
+    table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+    }
+
+    th, td {
+      border-bottom: 1px solid #f1f5f9 !important;
+    }
+
+    tr {
+      break-inside: avoid;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    // Ocultar overlays y snackbars al imprimir
+    .cdk-overlay-container,
+    .mat-mdc-snack-bar-container {
+      display: none !important;
     }
   }
 }

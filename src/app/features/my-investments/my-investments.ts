@@ -1,34 +1,42 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
 import { TransactionService } from '../../core/services/transaction';
 import { BalanceService } from '../../core/services/balance';
+import { FundsService } from '../../core/services/funds';
 import { Transaction } from '../../core/models/transaction.model';
 import { CurrencyFormatPipe } from '../../shared/pipes/currency-format-pipe';
+import { ConfirmationDialog } from '../../shared/components/confirmation-dialog/confirmation-dialog';
+import { NotificationCenterComponent } from '../../shared/components/notification-center/notification-center';
+import { NotificationService } from '../../core/services/notification';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-my-investments',
-  imports: [CommonModule, RouterModule, MatIconModule, Sidebar, CurrencyFormatPipe],
+  imports: [CommonModule, RouterModule, MatIconModule, MatDialogModule, Sidebar, NotificationCenterComponent, CurrencyFormatPipe],
   templateUrl: './my-investments.html',
   styleUrl: './my-investments.scss',
 })
 export class MyInvestments implements OnInit {
   private transactionService = inject(TransactionService);
   private balanceService = inject(BalanceService);
+  private fundsService = inject(FundsService);
+  private notificationService = inject(NotificationService);
+  private cdr = inject(ChangeDetectorRef);
+  private dialog = inject(MatDialog);
 
-  activeInvestments: { fundId: string; fundName: string; amount: number; date: string }[] = [];
+  activeInvestments: { fundId: string; fundName: string; amount: number; date: string; category?: string }[] = [];
   balance = this.balanceService.balance;
 
   ngOnInit() {
-    this.transactionService.getTransactions().subscribe(transactions => {
-      // Grouping transactions to find active subscriptions 
-      // Simplified: Just showing all subscriptions that haven't been fully cancelled yet.
-      // In a real app we would aggregate by fundId or rely on a "funds balance" API.
-      // Let's manually aggregate the amount per fundId for this test based on deposits/withdrawals.
-
-      const fundBalances = new Map<string, { fundName: string; amount: number; date: string }>();
+    forkJoin({
+      transactions: this.transactionService.getTransactions(),
+      funds: this.fundsService.getFunds()
+    }).subscribe(({ transactions, funds }) => {
+      const fundBalances = new Map<string, { fundName: string; amount: number; date: string; category?: string }>();
 
       transactions.forEach(tx => {
         if (tx.type === 'subscription') {
@@ -36,10 +44,12 @@ export class MyInvestments implements OnInit {
           if (existing) {
             existing.amount += tx.amount;
           } else {
+            const fund = funds.find(f => f.id === tx.fundId);
             fundBalances.set(tx.fundId, { 
               fundName: tx.fundName, 
               amount: tx.amount, 
-              date: tx.date 
+              date: tx.date,
+              category: fund?.category
             });
           }
         } else if (tx.type === 'cancellation') {
@@ -57,24 +67,39 @@ export class MyInvestments implements OnInit {
         fundId,
         ...data
       }));
+      this.cdr.detectChanges();
     });
   }
 
   cancelSubscription(investment: any) {
-    if (confirm(`¿Estás seguro que deseas cancelar tu suscripción al fondo ${investment.fundName}? \nEl dinero será reembolsado a tu saldo disponible.`)) {
-      this.transactionService.addTransaction({
-        fundId: investment.fundId,
-        fundName: investment.fundName,
-        type: 'cancellation',
-        amount: investment.amount,
-        date: new Date().toISOString(),
-      }).subscribe(() => {
-        // Return amount to available balance
-        this.balanceService.addAvailable(investment.amount);
-        
-        // Remove from local list
-        this.activeInvestments = this.activeInvestments.filter(i => i.fundId !== investment.fundId);
-      });
-    }
+    const dialogRef = this.dialog.open(ConfirmationDialog, {
+      width: '400px',
+      data: {
+        title: 'Cancelar Suscripción',
+        message: `¿Estás seguro que deseas cancelar tu suscripción al fondo ${investment.fundName}?`,
+        submessage: 'El dinero será reembolsado a tu saldo disponible.'
+      },
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.transactionService.addTransaction({
+          fundId: investment.fundId,
+          fundName: investment.fundName,
+          type: 'cancellation',
+          amount: investment.amount,
+          date: new Date().toISOString(),
+        }).subscribe(() => {
+          this.notificationService.notify('sms', investment.fundName, investment.amount, 'cancellation');
+          // Return amount to available balance
+          this.balanceService.addAvailable(investment.amount);
+          
+          // Remove from local list
+          this.activeInvestments = this.activeInvestments.filter(i => i.fundId !== investment.fundId);
+          this.cdr.detectChanges();
+        });
+      }
+    });
   }
 }

@@ -1,0 +1,18 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="icon-circle">
+      <mat-icon>warning</mat-icon>
+    </div>
+    <h2 mat-dialog-title>{{ data.title }}</h2>
+  </div>
+  
+  <mat-dialog-content>
+    <p class="dialog-message">{{ data.message }}</p>
+    <p class="dialog-submessage" *ngIf="data.submessage">{{ data.submessage }}</p>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="center">
+    <button class="btn-cancel" mat-button (click)="onNoClick()">Cancelar</button>
+    <button class="btn-confirm" mat-raised-button color="warn" (click)="onYesClick()">Confirmar</button>
+  </mat-dialog-actions>
+</div>

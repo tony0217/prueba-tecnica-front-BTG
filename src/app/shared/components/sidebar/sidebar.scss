@@ -7,6 +7,7 @@
   flex-direction: column;
   position: sticky;
   top: 0;
+  z-index: 100; // Increased to be above main content cards
 
   .sidebar-header {
     padding: 32px 24px;
@@ -123,7 +124,7 @@
 @media (min-width: 1025px) and (max-width: 1280px) {
   .sidebar {
     width: 72px;
-    overflow: hidden;
+    // Removed overflow: hidden to allow tooltips to show
 
     .sidebar-header {
       padding: 20px 0;
@@ -141,14 +142,49 @@
 
     .sidebar-nav {
       padding: 0 8px;
+      overflow: visible;
 
       .nav-item {
         justify-content: center;
         padding: 12px 0;
         gap: 0;
+        position: relative; // For tooltip positioning
 
         span {
-          display: none;
+          display: block; // Changed from none
+          position: absolute;
+          left: 64px;
+          background-color: #1e293b;
+          color: white;
+          padding: 8px 12px;
+          border-radius: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateX(-10px);
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          pointer-events: none;
+          z-index: 1000;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 8px;
+            height: 8px;
+            background-color: #1e293b;
+          }
+        }
+
+        &:hover span {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(0);
         }
       }
     }
@@ -157,12 +193,61 @@
       padding: 16px 0;
       display: flex;
       justify-content: center;
+      overflow: visible;
 
       .user-profile {
         justify-content: center;
+        position: relative;
 
         .user-info {
-          display: none;
+          display: flex; // Changed from none
+          position: absolute;
+          left: 56px;
+          bottom: 0;
+          background-color: white;
+          padding: 12px 16px;
+          border-radius: 12px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          border: 1px solid #e2e8f0;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateX(-10px);
+          transition: all 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+          pointer-events: none;
+          z-index: 1000;
+          min-width: 140px;
+
+          .user-name {
+            white-space: nowrap;
+            color: #1e293b;
+            font-weight: 700;
+            display: block;
+          }
+
+          .user-role {
+            white-space: nowrap;
+            color: #64748b;
+            display: block;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            bottom: 20px;
+            transform: rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-left: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+          }
+        }
+
+        &:hover .user-info {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(0);
         }
       }
     }

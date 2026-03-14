@@ -9,8 +9,7 @@
         <p>Administra al detalle tus suscripciones de fondos activas</p>
       </div>
       <div class="header-actions">
-        <button class="icon-btn"><mat-icon>notifications</mat-icon></button>
-        <button class="icon-btn"><mat-icon>settings</mat-icon></button>
+        <app-notification-center></app-notification-center>
       </div>
     </header>
 
@@ -21,9 +20,7 @@
           <mat-icon>arrow_back</mat-icon>
         </a>
         <h1>Mis Inversiones</h1>
-        <button class="notif-btn">
-          <mat-icon>notifications</mat-icon>
-        </button>
+        <app-notification-center></app-notification-center>
       </div>
     </header>
 
@@ -67,7 +64,12 @@
         </div>
 
         <div class="subscription-item" *ngFor="let investment of activeInvestments; let i = index">
-          <div class="fund-image" [ngClass]="['bg-gradient-' + (i % 3)]"></div>
+          <div class="fund-image" [ngClass]="['bg-gradient-' + (i % 3)]">
+            <div class="return-overlay">
+              <span class="return-label">Retorno Anual Estimado</span>
+              <p class="return-value">{{ investment.category === 'FIC' ? '+18.4%' : '+12.5%' }}</p>
+            </div>
+          </div>
           
           <div class="fund-details">
             <div class="fund-title-row">
@@ -102,19 +104,19 @@
 
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav">
-      <a routerLink="/dashboard" class="nav-item">
-        <mat-icon>dashboard</mat-icon>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
       </a>
-      <a routerLink="/funds-explorer" class="nav-item">
+      <a routerLink="/funds-explorer" routerLinkActive="active" class="nav-item">
         <mat-icon>explore</mat-icon>
         <span>Fondos</span>
       </a>
       <a routerLink="/my-investments" routerLinkActive="active" class="nav-item">
-        <mat-icon>analytics</mat-icon>
+        <mat-icon>account_balance_wallet</mat-icon>
         <span>Invertir</span>
       </a>
-      <a routerLink="/transaction-history" class="nav-item">
+      <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">
         <mat-icon>history</mat-icon>
         <span>Historial</span>
       </a>

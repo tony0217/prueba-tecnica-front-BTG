@@ -2,17 +2,19 @@
   <app-sidebar></app-sidebar>
   
   <main class="page-content">
-    <!-- Desktop Header -->
+    <!-- Top Header Bar -->
     <header class="page-header desktop-header">
       <div class="header-titles">
         <h1>Explorador de Fondos</h1>
-        <p>Descubre oportunidades y fondos administrados por expertos.</p>
       </div>
 
-      <div class="filter-tabs">
-        <button [class.active]="activeFilter === 'ALL'" (click)="applyFilter('ALL')">Todos los Fondos</button>
-        <button [class.active]="activeFilter === 'FPV'" (click)="applyFilter('FPV')">Voluntaria (FPV)</button>
-        <button [class.active]="activeFilter === 'FIC'" (click)="applyFilter('FIC')">Inversión (FIC)</button>
+      <div class="header-search">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Buscar fondos de inversión..." (input)="onSearch($event)">
+      </div>
+
+      <div class="header-actions">
+        <app-notification-center></app-notification-center>
       </div>
     </header>
 
@@ -23,9 +25,15 @@
           <mat-icon>arrow_back</mat-icon>
         </a>
         <h1>Explorador de Fondos</h1>
-        <button class="notif-btn">
-          <mat-icon>notifications</mat-icon>
-        </button>
+        <app-notification-center></app-notification-center>
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="mobile-search-bar">
+        <div class="search-input-wrapper">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar fondos..." (input)="onSearch($event)">
+        </div>
       </div>
 
       <!-- Mobile Filter Chips -->
@@ -42,6 +50,22 @@
       </div>
     </header>
 
+    <!-- Page Content Header -->
+    <section class="content-header-section">
+      <div class="content-header-flex">
+        <div class="title-group">
+          <h1>Descubre Oportunidades</h1>
+          <p>Explora fondos de alto rendimiento gestionados por expertos.</p>
+        </div>
+
+        <div class="segmented-filters">
+          <button [class.active]="activeFilter === 'ALL'" (click)="applyFilter('ALL')">Todos los Fondos</button>
+          <button [class.active]="activeFilter === 'FPV'" (click)="applyFilter('FPV')">Voluntaria (FPV)</button>
+          <button [class.active]="activeFilter === 'FIC'" (click)="applyFilter('FIC')">Inversión (FIC)</button>
+        </div>
+      </div>
+    </section>
+
     <div class="grid-container">
       <div class="funds-grid">
         <app-fund-card 
@@ -54,19 +78,19 @@
 
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav">
-      <a routerLink="/" class="nav-item">
-        <mat-icon>dashboard</mat-icon>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
       </a>
       <a routerLink="/funds-explorer" routerLinkActive="active" class="nav-item">
         <mat-icon>explore</mat-icon>
         <span>Fondos</span>
       </a>
-      <a routerLink="/my-investments" class="nav-item">
-        <mat-icon>analytics</mat-icon>
+      <a routerLink="/my-investments" routerLinkActive="active" class="nav-item">
+        <mat-icon>account_balance_wallet</mat-icon>
         <span>Invertir</span>
       </a>
-      <a routerLink="/transaction-history" class="nav-item">
+      <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">
         <mat-icon>history</mat-icon>
         <span>Historial</span>
       </a>

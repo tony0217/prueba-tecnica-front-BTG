@@ -8,8 +8,7 @@
         <h1>Overview</h1>
       </div>
       <div class="header-actions">
-        <button class="icon-btn"><mat-icon>notifications</mat-icon></button>
-        <button class="icon-btn"><mat-icon>settings</mat-icon></button>
+        <app-notification-center></app-notification-center>
       </div>
     </header>
 
@@ -22,9 +21,7 @@
         <p class="greeting">Bienvenido,</p>
         <h2>Inversor BTG</h2>
       </div>
-      <button class="icon-btn notification-btn">
-        <mat-icon>notifications</mat-icon>
-      </button>
+      <app-notification-center></app-notification-center>
     </header>
 
     <div class="dashboard-grid">
@@ -44,12 +41,12 @@
         </div>
         <div class="balance-actions">
           <a routerLink="/funds-explorer" class="action-btn primary-action">
-            <mat-icon>add_circle</mat-icon>
-            <span>Invertir</span>
+            <mat-icon>explore</mat-icon>
+            <span>Fondos</span>
           </a>
           <a routerLink="/my-investments" class="action-btn secondary-action">
-            <mat-icon>call_made</mat-icon>
-            <span>Mis Fondos</span>
+            <mat-icon>account_balance_wallet</mat-icon>
+            <span>Invertir</span>
           </a>
         </div>
       </section>
@@ -117,15 +114,15 @@
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <mat-icon>dashboard</mat-icon>
+        <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
       </a>
       <a routerLink="/funds-explorer" routerLinkActive="active" class="nav-item">
-        <mat-icon>account_balance_wallet</mat-icon>
+        <mat-icon>explore</mat-icon>
         <span>Fondos</span>
       </a>
       <a routerLink="/my-investments" routerLinkActive="active" class="nav-item">
-        <mat-icon>analytics</mat-icon>
+        <mat-icon>account_balance_wallet</mat-icon>
         <span>Invertir</span>
       </a>
       <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">

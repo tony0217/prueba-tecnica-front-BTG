@@ -21,17 +21,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f1f5f9;
-    color: #2e7d32;
+    background-color: rgba(239, 68, 68, 0.1); // Light red for Cancellation
+    color: #ef4444; // Cancellation (Red)
 
     &.subscription {
-      color: #d32f2f;
+      background-color: rgba(15, 88, 189, 0.1); // Light blue for Subscription
+      color: #0f58bd; // Subscription (Blue #0f58bd)
     }
 
     mat-icon {
-      font-size: 20px;
-      height: 20px;
-      width: 20px;
+      font-size: 22px;
+      width: 22px !important;
+      height: 22px !important;
     }
   }
 
@@ -63,8 +64,12 @@
     white-space: nowrap;
     text-align: right;
 
-    &.subscription {
-      color: #1e293b;
+    &.is-negative {
+      color: #ef4444; // Red
+    }
+
+    &.is-positive {
+      color: #10b981; // Green
     }
   }
 

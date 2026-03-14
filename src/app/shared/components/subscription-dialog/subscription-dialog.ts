@@ -28,7 +28,10 @@ export class SubscriptionDialog {
   
   subscriptionForm: FormGroup;
   fund: Fund;
-  availableBalance = this.balanceService.balance().available;
+
+  get availableBalance(): number {
+    return this.balanceService.balance().available;
+  }
 
   constructor(
     public dialogRef: MatDialogRef<SubscriptionDialog>,
@@ -59,11 +62,13 @@ export class SubscriptionDialog {
     }
   }
 
-  setMin(): void {
-    this.subscriptionForm.patchValue({ amount: this.fund.minAmount });
-  }
-
   setMax(): void {
     this.subscriptionForm.patchValue({ amount: this.availableBalance });
+    this.subscriptionForm.get('amount')?.markAsTouched();
+  }
+  
+  setMin(): void {
+    this.subscriptionForm.patchValue({ amount: this.fund.minAmount });
+    this.subscriptionForm.get('amount')?.markAsTouched();
   }
 }

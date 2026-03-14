@@ -9,8 +9,22 @@
         <p>Gestiona y rastrea tu actividad de inversión a través de los fondos.</p>
       </div>
       <div class="header-actions">
-        <button class="icon-btn"><mat-icon>download</mat-icon></button>
-        <button class="icon-btn"><mat-icon>print</mat-icon></button>
+        <app-notification-center></app-notification-center>
+        
+        <button class="icon-btn" [matMenuTriggerFor]="downloadMenu">
+          <mat-icon>download</mat-icon>
+        </button>
+
+        <mat-menu #downloadMenu="matMenu" xPosition="before" class="download-menu">
+          <button mat-menu-item (click)="downloadTransactions('pdf')">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <span>Descargar PDF</span>
+          </button>
+          <button mat-menu-item (click)="downloadTransactions('excel')">
+            <mat-icon>table_view</mat-icon>
+            <span>Descargar Excel</span>
+          </button>
+        </mat-menu>
       </div>
     </header>
 
@@ -21,6 +35,7 @@
           <mat-icon>arrow_back</mat-icon>
         </a>
         <h1>Historial de Transacciones</h1>
+        <app-notification-center></app-notification-center>
         <button class="search-btn">
           <mat-icon>search</mat-icon>
         </button>
@@ -60,12 +75,11 @@
                 <th>Fecha</th>
                 <th>Tipo</th>
                 <th>Fondo</th>
-                <th>Estado</th>
                 <th class="text-right">Monto</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let tx of filteredTransactions">
+              <tr *ngFor="let tx of isPrinting ? filteredTransactions : paginatedTransactions">
                 <td>
                   <div class="date-col">
                     <span class="date-main">{{ tx.date | date:'MMM dd, yyyy' }}</span>
@@ -82,15 +96,9 @@
                 <td>
                   <span class="fund-name">{{ tx.fundName }}</span>
                 </td>
-                <td>
-                  <span class="status-indicator">
-                    <span class="status-dot"></span>
-                    {{ tx.type === 'subscription' ? 'Completada' : 'Cancelada' }}
-                  </span>
-                </td>
                 <td class="text-right">
-                  <span class="amount" [ngClass]="{'is-subscription': tx.type === 'subscription'}">
-                    {{ tx.type === 'subscription' ? '+' : '-' }}{{ tx.amount | currencyFormat }}
+                  <span class="amount" [ngClass]="tx.type === 'subscription' ? 'is-negative' : 'is-positive'">
+                    {{ tx.type === 'subscription' ? '-' : '+' }}{{ tx.amount | currencyFormat }}
                   </span>
                 </td>
               </tr>
@@ -98,7 +106,7 @@
           </table>
 
           <!-- Empty State (Desktop) -->
-          <div *ngIf="filteredTransactions.length === 0" class="empty-state">
+          <div *ngIf="paginatedTransactions.length === 0" class="empty-state">
             <mat-icon>receipt_long</mat-icon>
             <p>No se encontraron transacciones en esta categoría.</p>
           </div>
@@ -106,23 +114,27 @@
 
         <!-- Pagination -->
         <div class="pagination-footer" *ngIf="filteredTransactions.length > 0">
-          <p class="results-text">Mostrando <span>1</span> a <span>{{ filteredTransactions.length }}</span> de <span>{{ filteredTransactions.length }}</span> resultados</p>
+          <p class="results-text">Mostrando <span>{{ startRange }}</span> a <span>{{ endRange }}</span> de <span>{{ filteredTransactions.length }}</span> resultados</p>
           <div class="pagination-controls">
-            <button disabled><mat-icon>chevron_left</mat-icon></button>
-            <button class="active">1</button>
-            <button><mat-icon>chevron_right</mat-icon></button>
+            <button [disabled]="currentPage === 1" (click)="prevPage()">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button class="active">{{ currentPage }}</button>
+            <button [disabled]="currentPage === totalPages" (click)="nextPage()">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Mobile Transaction Cards -->
       <div class="mobile-transactions">
-        <div class="tx-card" *ngFor="let tx of filteredTransactions">
+        <div class="tx-card" *ngFor="let tx of isPrinting ? filteredTransactions : paginatedTransactions">
           <div class="tx-card-icon" [ngClass]="{
             'icon-subscription': tx.type === 'subscription',
             'icon-cancellation': tx.type === 'cancellation'
           }">
-            <mat-icon>{{ tx.type === 'subscription' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+            <mat-icon>{{ tx.type === 'subscription' ? 'add_task' : 'cancel' }}</mat-icon>
           </div>
           <div class="tx-card-info">
             <span class="tx-date">{{ tx.date | date:'MMM dd, yyyy' }}</span>
@@ -130,14 +142,8 @@
             <span class="tx-type-label">{{ tx.type === 'subscription' ? 'SUSCRIPCIÓN' : 'CANCELACIÓN' }}</span>
           </div>
           <div class="tx-card-amount">
-            <span class="tx-amount" [ngClass]="{'is-positive': tx.type === 'subscription'}">
+            <span class="tx-amount" [ngClass]="tx.type === 'subscription' ? 'is-negative' : 'is-positive'">
               {{ tx.type === 'subscription' ? '-' : '+' }}{{ tx.amount | currencyFormat }}
-            </span>
-            <span class="tx-status" [ngClass]="{
-              'status-completed': tx.type === 'subscription',
-              'status-cancelled': tx.type === 'cancellation'
-            }">
-              {{ tx.type === 'subscription' ? 'Completada' : 'Cancelada' }}
             </span>
           </div>
         </div>
@@ -153,16 +159,16 @@
 
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav">
-      <a routerLink="/dashboard" class="nav-item">
-        <mat-icon>dashboard</mat-icon>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
       </a>
-      <a routerLink="/funds-explorer" class="nav-item">
+      <a routerLink="/funds-explorer" routerLinkActive="active" class="nav-item">
         <mat-icon>explore</mat-icon>
         <span>Fondos</span>
       </a>
-      <a routerLink="/my-investments" class="nav-item">
-        <mat-icon>analytics</mat-icon>
+      <a routerLink="/my-investments" routerLinkActive="active" class="nav-item">
+        <mat-icon>account_balance_wallet</mat-icon>
         <span>Invertir</span>
       </a>
       <a routerLink="/transaction-history" routerLinkActive="active" class="nav-item">

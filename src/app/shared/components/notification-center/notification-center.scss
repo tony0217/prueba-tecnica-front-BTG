@@ -1,0 +1,225 @@
+@use "sass:color";
+
+.notification-btn {
+  color: #64748b;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+
+  &:hover {
+    color: #0f58bd;
+    background-color: rgba(15, 88, 189, 0.1);
+  }
+
+  &.has-notifications {
+    background-color: #0f58bd;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(15, 88, 189, 0.2);
+  }
+
+  mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+::ng-deep .notification-menu {
+  max-width: 384px !important; 
+  width: 384px !important;
+  border-radius: 12px !important;
+  margin-top: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid #e2e8f0 !important;
+  background-color: #ffffff !important;
+
+  .mat-mdc-menu-content {
+    padding: 0 !important;
+  }
+
+  .notification-header {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .btn-mark-read {
+      background: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f58bd;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+
+      &:hover {
+        text-decoration: underline;
+        background-color: rgba(15, 88, 189, 0.05);
+      }
+    }
+  }
+
+  .notification-list {
+    max-height: 450px;
+    overflow-y: auto;
+
+    .notification-item {
+      height: auto !important;
+      padding: 16px !important;
+      line-height: normal !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 16px !important;
+      border-bottom: 1px solid #f1f5f9;
+      transition: all 0.2s ease;
+      white-space: normal !important;
+      text-align: left !important;
+      width: 100% !important;
+
+      &:hover {
+        background-color: #f8fafc !important;
+      }
+
+      .icon-container {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+
+        mat-icon {
+          font-size: 22px;
+          width: 22px !important;
+          height: 22px !important;
+          color: inherit !important;
+        }
+
+        &.subscription {
+          background-color: rgba(15, 88, 189, 0.1);
+          color: #0f58bd !important;
+        }
+
+        &.cancellation {
+          background-color: rgba(239, 68, 68, 0.1);
+          color: #ef4444 !important;
+        }
+      }
+
+      .notif-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .title-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+
+          h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.2;
+          }
+
+          .time {
+            font-size: 10px;
+            font-weight: 500;
+            color: #94a3b8;
+          }
+        }
+
+        p {
+          margin: 4px 0 0 0;
+          font-size: 12px;
+          color: #475569;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+
+  .notification-footer {
+    padding: 12px;
+    background-color: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+
+    .btn-view-all {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      mat-icon {
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+      }
+
+      &:hover {
+        color: #0f58bd;
+        background-color: rgba(15, 88, 189, 0.05);
+      }
+    }
+  }
+
+  .empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: #94a3b8;
+
+    mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 12px;
+      opacity: 0.3;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  ::ng-deep .notification-menu {
+    width: calc(100vw - 32px) !important;
+    max-width: none !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+}

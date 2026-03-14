@@ -43,3 +43,119 @@ a {
   text-decoration: none;
   color: var(--mat-sys-primary);
 }
+
+// ULTRA-VIBRANT PREMIUM SNACKBAR STYLING
+.premium-snackbar {
+  --mdc-snackbar-container-color: #020617;
+  --mdc-snackbar-container-shape: 16px;
+  
+  .mdc-snackbar__surface {
+    background: #020617 !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;
+    padding: 14px 28px !important;
+    min-height: 72px !important;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    // Inner Glow Effect
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 10% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    }
+  }
+
+  // Success Variant (Subscription)
+  &.snack-subscription {
+    --mat-snack-bar-button-color: #10b981;
+    .mdc-snackbar__surface {
+      border-left: 6px solid #10b981;
+      box-shadow: inset 20px 0 30px -20px rgba(16, 185, 129, 0.15) !important;
+      
+      &::before { background: #10b981; }
+    }
+    .mdc-button__label { color: #10b981 !important; }
+  }
+
+  // Error/Warning Variant (Cancellation)
+  &.snack-cancellation {
+    --mat-snack-bar-button-color: #ef4444;
+    .mdc-snackbar__surface {
+      border-left: 6px solid #ef4444;
+      box-shadow: inset 20px 0 30px -20px rgba(239, 68, 68, 0.15) !important;
+      
+      &::before { background: #ef4444; }
+    }
+    .mdc-button__label { color: #ef4444 !important; }
+  }
+
+  .mdc-snackbar__label {
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    color: #f1f5f9 !important;
+    padding-left: 14px !important;
+    letter-spacing: 0.02em !important;
+    flex-grow: 1;
+  }
+
+  .mdc-button {
+    margin-left: 12px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease !important;
+    
+    .mdc-button__label {
+      font-weight: 800 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase;
+      font-size: 12px !important;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Global Mat-Icon Perfect Centering
+.mat-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  line-height: 24px !important; // Match height for vertical centering
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important; // Prevent clipping if slightly off
+  box-sizing: border-box !important;
+
+  &.mat-icon-no-color {
+    color: inherit !important;
+  }
+
+  svg {
+    width: 20px !important; // Slightly smaller to ensure breathing room
+    height: 20px !important;
+    display: block !important;
+  }
+}

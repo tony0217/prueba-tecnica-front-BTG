@@ -19,7 +19,7 @@
           formControlName="amount" 
           class="amount-input" 
           placeholder="0.00"
-          [class.has-error]="subscriptionForm.get('amount')?.invalid && subscriptionForm.get('amount')?.touched"
+          [class.has-error]="subscriptionForm.get('amount')?.invalid"
         />
         <div class="quick-actions">
           <button type="button" class="btn-min" (click)="setMin()">MIN</button>
@@ -28,13 +28,18 @@
       </div>
       
       <!-- Error messages -->
-      <div class="error-messages" *ngIf="subscriptionForm.get('amount')?.invalid && subscriptionForm.get('amount')?.touched">
-        <span *ngIf="subscriptionForm.get('amount')?.hasError('required')">El monto es requerido.</span>
-        <span *ngIf="subscriptionForm.get('amount')?.hasError('min')">El mínimo para este fondo es {{ fund.minAmount | currencyFormat }}.</span>
-        <span *ngIf="subscriptionForm.get('amount')?.hasError('max') || subscriptionForm.get('amount')?.hasError('insufficientFunds')">No tienes saldo suficiente.</span>
+      <div class="error-messages" *ngIf="subscriptionForm.get('amount')?.invalid">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <div class="error-texts">
+          <span *ngIf="subscriptionForm.get('amount')?.hasError('required')">El monto es requerido.</span>
+          <span *ngIf="subscriptionForm.get('amount')?.hasError('min')">El monto mínimo para invertir en este fondo es de {{ fund.minAmount | currencyFormat }}.</span>
+          <span *ngIf="subscriptionForm.get('amount')?.hasError('max') || subscriptionForm.get('amount')?.hasError('insufficientFunds')">Tu saldo disponible es menor al monto ingresado.</span>
+        </div>
       </div>
 
-      <p class="balance-hint">Saldo disponible: {{ availableBalance | currencyFormat }}</p>
+      <p class="balance-hint" [class.insufficient]="subscriptionForm.get('amount')?.hasError('max')">
+        Saldo disponible: <strong>{{ availableBalance | currencyFormat }}</strong>
+      </p>
     </div>
 
     <div class="form-section">

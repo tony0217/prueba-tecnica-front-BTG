@@ -1,0 +1,39 @@
+<button mat-icon-button [matMenuTriggerFor]="notificationMenu" class="notification-btn" [class.has-notifications]="unreadCount() > 0">
+  <mat-icon [matBadge]="unreadCount() > 0 ? unreadCount() : null" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
+</button>
+
+<mat-menu #notificationMenu="matMenu" class="notification-menu" xPosition="before">
+  <div class="notification-header" (click)="$event.stopPropagation()">
+    <h3>Notificaciones</h3>
+    <button class="btn-mark-read" (click)="markAllAsRead()" *ngIf="notifications().length > 0">
+      Marcar como leídas
+    </button>
+  </div>
+  
+  <div class="notification-list" (click)="$event.stopPropagation()">
+    <button mat-menu-item *ngFor="let notification of notifications()" (click)="handleNotificationClick(notification)" class="notification-item unread">
+      <div class="icon-container" [ngClass]="notification.type">
+        <mat-icon>{{ notification.type === 'subscription' ? 'check_circle' : 'error' }}</mat-icon>
+      </div>
+      <div class="notif-text">
+        <div class="title-row">
+          <h4>{{ notification.title }}</h4>
+          <span class="time">{{ notification.timestamp | date:'shortTime' }}</span>
+        </div>
+        <p>{{ notification.message }}</p>
+      </div>
+    </button>
+
+    <div class="empty-state" *ngIf="notifications().length === 0">
+      <mat-icon>notifications_off</mat-icon>
+      <p>No tienes notificaciones pendientes</p>
+    </div>
+  </div>
+
+  <div class="notification-footer" *ngIf="notifications().length > 0" (click)="$event.stopPropagation()">
+    <button class="btn-view-all" (click)="navigateToHistory()">
+      Ver todas
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</mat-menu>

@@ -254,6 +254,11 @@
           border-radius: 8px;
           background-size: cover;
           background-position: center;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start; // Aligned to left
+          position: relative;
+          overflow: hidden;
 
           @media (min-width: 768px) {
             height: 80px;
@@ -264,6 +269,30 @@
           &.bg-gradient-0 { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); }
           &.bg-gradient-1 { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); }
           &.bg-gradient-2 { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); }
+
+          .return-overlay {
+            text-align: left; // Aligned to left
+            color: white;
+            padding: 12px 16px; // Added padding for better alignment
+            z-index: 2;
+
+            .return-label {
+              display: block;
+              font-size: 9px;
+              opacity: 0.8;
+              font-weight: 600;
+              margin-bottom: 2px;
+              text-transform: uppercase;
+              letter-spacing: 0.02em;
+            }
+
+            .return-value {
+              margin: 0;
+              font-size: 18px;
+              font-weight: 800;
+              letter-spacing: -0.02em;
+            }
+          }
         }
 
         .fund-details {
@@ -400,9 +429,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 50;
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
+    z-index: 999;
+    background-color: #ffffff;
     border-top: 1px solid rgba(15, 88, 189, 0.1);
     height: 64px;
     align-items: center;
