@@ -58,6 +58,15 @@
       "amount": 100000,
       "date": "2026-03-13T05:55:48.361Z",
       "notificationMethod": "sms"
+    },
+    {
+      "id": "9477",
+      "fundId": "2",
+      "fundName": "FPV_BTG_PACTUAL_ECOPETROL",
+      "type": "subscription",
+      "amount": 125000,
+      "date": "2026-03-14T03:04:59.934Z",
+      "notificationMethod": "sms"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Sidebar } from '../../shared/components/sidebar/sidebar';
@@ -14,6 +14,7 @@ import { CurrencyFormatPipe } from '../../shared/pipes/currency-format-pipe';
 })
 export class TransactionHistory implements OnInit {
   private transactionService = inject(TransactionService);
+  private cdr = inject(ChangeDetectorRef);
 
   transactions: Transaction[] = [];
   filteredTransactions: Transaction[] = [];
@@ -24,13 +25,14 @@ export class TransactionHistory implements OnInit {
       // Sort by date descending
       this.transactions = txs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       this.applyFilter('ALL');
+      this.cdr.detectChanges();
     });
   }
 
   applyFilter(filter: 'ALL' | 'SUBSCRIPTION' | 'CANCELLATION') {
     this.activeFilter = filter;
     if (filter === 'ALL') {
-      this.filteredTransactions = [...this.transactions];
+      this.filteredTransactions = this.transactions;
     } else {
       const type = filter === 'SUBSCRIPTION' ? 'subscription' : 'cancellation';
       this.filteredTransactions = this.transactions.filter(t => t.type === type);

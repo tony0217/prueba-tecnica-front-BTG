@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,7 @@ export class FundsExplorer implements OnInit {
   private transactionService = inject(TransactionService);
   private balanceService = inject(BalanceService);
   private dialog = inject(MatDialog);
+  private cdr = inject(ChangeDetectorRef);
 
   funds: Fund[] = [];
   filteredFunds: Fund[] = [];
@@ -31,13 +32,14 @@ export class FundsExplorer implements OnInit {
     this.fundsService.getFunds().subscribe((funds) => {
       this.funds = funds;
       this.applyFilter('ALL');
+      this.cdr.detectChanges();
     });
   }
 
   applyFilter(filter: 'ALL' | 'FPV' | 'FIC') {
     this.activeFilter = filter;
     if (filter === 'ALL') {
-      this.filteredFunds = [...this.funds];
+      this.filteredFunds = this.funds;
     } else {
       this.filteredFunds = this.funds.filter(f => f.category === filter);
     }
