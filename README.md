@@ -104,7 +104,6 @@ npm test
 ## 📄 Documentación Adicional
 Para más detalles sobre el uso paso a paso de todas las funcionalidades, consulte:
 - [📖 Manual de Usuario (Markdown)](./manual-usuario.md)
-- [📥 Manual de Usuario (PDF)](./manual-usuario.pdf)
 
 ---
 
