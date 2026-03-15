@@ -16,7 +16,7 @@
 
 - 💎 **Diseño Premium**: Interfaz moderna con efectos de glassmorphism, gradientes suaves y micro-animaciones.
 - 📱 **Totalmente Responsivo**: Experiencia optimizada para Desktop, Tablet y Mobile con navegación adaptativa.
-- 📊 **Reportes Profesionales**: Motor de exportación mejorado a **PDF** y **Excel** capaz de procesar grandes volúmenes de datos.
+- 📊 **Reportes Profesionales**: Motor de exportación mejorado a **Excel** capaz de procesar grandes volúmenes de datos.
 - 🔔 **Centro de Notificaciones**: Panel interactivo para el seguimiento de operaciones en tiempo real.
 - 🛡️ **Validaciones Blindadas**: Control estricto de montos mínimos de suscripción y saldo disponible.
 - ⚡ **Arquitectura Moderna**: Standalone components, Routing Lazy Loading y manejo de estado con **Signals**.
@@ -49,68 +49,90 @@
 
 ## 🚀 Instalación y Ejecución
 
-Siga estos pasos para desplegar el proyecto localmente:
+Siga estos pasos detallados para configurar el entorno de ejecución:
 
-### 1. Clonar el repositorio
+### 1. Requisitos Técnicos
+Asegúrese de tener instalados los siguientes componentes:
+- **Node.js**: Versión 18.x o superior (LTS recomendada).
+- **npm**: Versión 9.x o superior.
+- **Angular CLI** (Opcional): `npm install -g @angular/cli`.
+
+### 2. Clonar y Preparar el Proyecto
 ```bash
+# Descargar el repositorio
 git clone https://github.com/tony0217/prueba-tecnica-front-BTG.git
 cd prueba-tecnica-front-BTG
-```
 
-### 2. Instalar dependencias
-```bash
+# Instalar todas las dependencias necesarias
 npm install
 ```
 
-### 3. Iniciar el Ecosistema
-Ejecute ambos comandos en terminales separadas:
+### 3. Ejecución del Sistema
+Para que la aplicación funcione correctamente, debe iniciar tanto el servidor de datos (Mock API) como el servidor de desarrollo de Angular. Se recomienda abrir dos terminales diferentes:
 
-**Terminal A (API REST):**
+**Terminal 1: Servidor de Datos (Backend Mock)**
+Este comando inicia `json-server` en el puerto `3000` utilizando el archivo `db.json` como base de datos persistente.
 ```bash
 npm run server
 ```
 
-**Terminal B (Angular Dev Server):**
+**Terminal 2: Servidor Frontend (Angular)**
+Este comando compila la aplicación y levanta un servidor dinámico en el puerto `4200`.
 ```bash
 npm start
 ```
 
-La aplicación abrirá automáticamente en `http://localhost:4200/`.
+Una vez iniciados, navegue a `http://localhost:4200/` en su navegador preferido.
 
 ---
 
 ## 🏗️ Estructura del Proyecto
 
+El proyecto utiliza una arquitectura modular basada en el patrón de **Smart/Dumb Components** y una clara separación de capas:
+
 ```
 src/app/
-├── core/       # Singleton services, modelos de datos e interceptores funcionales.
-├── features/   # Módulos de negocio: Dashboard, Explorador de Fondos, Portafolio e Historial.
-├── shared/     # Componentes presentacionales, Pipes de formato y utilidades comunes.
-└── assets/     # Recursos estáticos: iconos BTG, imágenes y estilos base.
+├── core/
+│   ├── interceptors/    # Interceptores para manejo de carga global (Spinner).
+│   ├── models/          # Interfaces de datos (Fondos, Transacciones, Balance).
+│   └── services/        # Lógica de negocio (Consultas API, Manejo de Estado con Signals).
+├── features/            # Componentes "Smart" (Lógica y Rutas)
+│   ├── dashboard/       # Vista de resumen y métricas.
+│   ├── funds-explorer/  # Catálogo de fondos y filtros.
+│   ├── my-investments/  # Gestión de portafolio y cancelaciones.
+│   └── history/         # Registro de transacciones con exportación.
+├── shared/              # Componentes "Dumb" (UI reutilizable)
+│   ├── components/      # Botones, Cards, Diálogos y Sidebar.
+│   ├── pipes/           # Formateadores de moneda (COP) y datos.
+│   └── ui/              # Elementos básicos de diseño.
+├── app.config.ts        # Configuración global de Providers y Material.
+├── app.routes.ts        # Definición de rutas con Lazy Loading.
 ```
 
 ---
 
 ## 🧪 Pruebas Unitarias
 
-Se cuenta con una cobertura exhaustiva para garantizar la estabilidad del sistema:
+Garantizamos la estabilidad del código mediante tests automatizados:
 
 ```bash
+# Ejecutar tests una sola vez
 npm test
+
+# Ejecutar tests en modo escucha (desarrollo)
+npx ng test
 ```
 
 ---
 
 ## 📄 Documentación Adicional
-Para más detalles sobre el uso paso a paso de todas las funcionalidades, consulte:
+Para una guía detallada del paso a paso de uso, consulte:
 - [📖 Manual de Usuario (Markdown)](./manual-usuario.md)
 
 ---
 
 ## 👤 Autor
 **Anthony Henríquez Casallas**
-- [GitHub](https://github.com/tony0217)
-- [LinkedIn](https://www.linkedin.com/in/anthony-henriquez-casallas/)
 
 ---
 <p align="center">Proyecto desarrollado para el proceso de selección técnica de BTG Pactual.</p>
