@@ -72,15 +72,17 @@ Un registro detallado de todos sus movimientos.
 
 La aplicación se adapta automáticamente a dispositivos móviles para que pueda gestionar sus finanzas desde cualquier lugar.
 
-````carousel
+### Dashboard Móvil
 ![Dashboard Móvil](./screenshots/mobile_dashboard.png)
-<!-- slide -->
+
+### Explorador de Fondos Móvil
 ![Explorador Móvil](./screenshots/mobile_funds.png)
-<!-- slide -->
+
+### Inversiones y Actividad Móvil
 ![Portafolio Móvil](./screenshots/mobile_investments.png)
-<!-- slide -->
+
+### Historial de Transacciones Móvil
 ![Historial Móvil](./screenshots/mobile_history.png)
-````
 
 ---
 
@@ -113,5 +115,5 @@ Ubicado en la parte superior derecha (icono de campana), este centro registra to
 
 ## 📄 Notas Adicionales
 - **Ambiente**: Los datos mostrados corresponden al ambiente de pruebas (Mock API).
-- **Exportación masiva**: La exportación a PDF y Excel en el Historial procesa la totalidad de sus registros, independientemente de la página que esté visualizando en la tabla.
+- **Exportación masiva**: La exportación a Excel en el Historial procesa la totalidad de sus registros, independientemente de la página que esté visualizando en la tabla.
 - **Soporte**: Las notificaciones por Email y SMS son simulaciones visuales para demostrar el flujo de comunicación multicanal.
